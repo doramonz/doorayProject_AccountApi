@@ -1,25 +1,24 @@
 package com.nhnacademy.doorayProject.service.impl;
 
-import com.nhnacademy.doorayProject.dto.UserInfoDto;
-import com.nhnacademy.doorayProject.dto.UserLoginDto;
-import com.nhnacademy.doorayProject.dto.UserRegisterDto;
-import com.nhnacademy.doorayProject.dto.UserUpdateDto;
+import com.nhnacademy.doorayProject.config.property.DefaultValue;
+import com.nhnacademy.doorayProject.dto.*;
 import com.nhnacademy.doorayProject.entity.User;
-import com.nhnacademy.doorayProject.exeption.DormancyUserException;
-import com.nhnacademy.doorayProject.exeption.LoginFailException;
+import com.nhnacademy.doorayProject.exeption.UserDormancyException;
+import com.nhnacademy.doorayProject.exeption.UserLoginFailException;
+import com.nhnacademy.doorayProject.exeption.UserAlreadyExistException;
 import com.nhnacademy.doorayProject.exeption.UserNotFoundException;
 import com.nhnacademy.doorayProject.repository.UserRepository;
 import com.nhnacademy.doorayProject.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service("userService")
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final DefaultValue defaultValue;
 
     @Override
     public UserInfoDto getUserInfo(String userId) {
@@ -29,36 +28,41 @@ public class UserServiceImpl implements UserService {
     @Override
     public void login(UserLoginDto userLoginDto) {
         if(!userRepository.existsById(userLoginDto.getUserId())) {
-            throw new LoginFailException();
+            throw new UserLoginFailException();
         }
     }
 
     @Override
     public void register(UserRegisterDto userRegisterDto) {
+        if(userRepository.existsById(userRegisterDto.getUserId())) {
+            throw new UserAlreadyExistException();
+        }
         userRepository.save(userRegisterDto.toEntity());
     }
 
     @Override
     public void update(String userId, UserUpdateDto userUpdateDto) {
-        if(!userRepository.existsById(userId)) {
-            throw new UserNotFoundException();
-        }
-        User user = userRepository.findById(userId).get();
-        user.setUserName(userUpdateDto.getUserName());
-        user.setPassword(userUpdateDto.getPassword());
-        user.setEmail(userUpdateDto.getEmail());
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        userUpdateDto.update(user);
         userRepository.save(user);
     }
 
     @Override
     public void dormancy(String userId) {
-        if(!userRepository.existsById(userId)) {
-            throw new UserNotFoundException();
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        if(user.getLatestLogin().isBefore(LocalDateTime.now().minusDays(defaultValue.getDormancyDay()))) {
+            throw new UserDormancyException();
         }
-        User user = userRepository.findById(userId).get();
-        if(user.getLatestLogin().plusYears(1).isBefore(LocalDate.now().atStartOfDay())) {
-            throw new DormancyUserException();
-        }
+    }
+
+    @Override
+    public UserInfoDto[] getUserListIn(String[] userIds) {
+        return userRepository.getUserInfoListIn(userIds).toArray(UserInfoDto[]::new);
+    }
+
+    @Override
+    public UserInfoDto[] getUserList() {
+        return userRepository.getUserInfoList().toArray(UserInfoDto[]::new);
     }
 
 }
