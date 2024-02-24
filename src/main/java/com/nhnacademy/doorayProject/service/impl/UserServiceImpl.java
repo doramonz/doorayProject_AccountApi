@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service("userService")
@@ -56,13 +57,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoDto[] getUserListIn(String[] userIds) {
-        return userRepository.getUserInfoListIn(userIds).toArray(UserInfoDto[]::new);
+    public List<UserInfoDto> getUserListIn(List<String> userIds) {
+        return userRepository.getUserInfoListIn(userIds);
     }
 
     @Override
-    public UserInfoDto[] getUserList() {
-        return userRepository.getUserInfoList().toArray(UserInfoDto[]::new);
+    public List<UserInfoDto> getUserList() {
+        return userRepository.getUserInfoList();
     }
 
 }

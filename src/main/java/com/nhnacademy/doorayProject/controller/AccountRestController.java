@@ -1,9 +1,6 @@
 package com.nhnacademy.doorayProject.controller;
 
-import com.nhnacademy.doorayProject.dto.UserInfoDto;
-import com.nhnacademy.doorayProject.dto.UserLoginDto;
-import com.nhnacademy.doorayProject.dto.UserRegisterDto;
-import com.nhnacademy.doorayProject.dto.UserUpdateDto;
+import com.nhnacademy.doorayProject.dto.*;
 import com.nhnacademy.doorayProject.exeption.UserNotFoundException;
 import com.nhnacademy.doorayProject.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -81,10 +78,12 @@ public class AccountRestController {
     }
 
     @PostMapping("/list")
-    public ResponseEntity<UserInfoDto[]> getUserListIn(@RequestBody String[] userIds) {
-        ResponseEntity<UserInfoDto[]> responseEntity;
+    public ResponseEntity<UserInfoListDto> getUserListIn(@RequestBody UserIdListDto userIdListDto) {
+        ResponseEntity<UserInfoListDto> responseEntity;
         try {
-            responseEntity = new ResponseEntity<>(userService.getUserListIn(userIds), HttpStatus.OK);
+            UserInfoListDto userInfoListDto = new UserInfoListDto();
+            userInfoListDto.setUserInfoList(userService.getUserListIn(userIdListDto.getUserIdList()));
+            responseEntity = new ResponseEntity<>(userInfoListDto, HttpStatus.OK);
         } catch (Exception e) {
             responseEntity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -92,10 +91,12 @@ public class AccountRestController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<UserInfoDto[]> getUserList() {
-        ResponseEntity<UserInfoDto[]> responseEntity;
+    public ResponseEntity<UserInfoListDto> getUserList() {
+        ResponseEntity<UserInfoListDto> responseEntity;
         try {
-            responseEntity = new ResponseEntity<>(userService.getUserList(), HttpStatus.OK);
+            UserInfoListDto userInfoListDto = new UserInfoListDto();
+            userInfoListDto.setUserInfoList(userService.getUserList());
+            responseEntity = new ResponseEntity<>(userInfoListDto, HttpStatus.OK);
         } catch (Exception e) {
             responseEntity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
