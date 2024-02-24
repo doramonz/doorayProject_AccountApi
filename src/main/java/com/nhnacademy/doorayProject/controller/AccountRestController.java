@@ -80,4 +80,15 @@ public class AccountRestController {
         return responseEntity;
     }
 
+    @PostMapping("/list")
+    public ResponseEntity<UserInfoDto[]> getUserListIn(@RequestBody String[] userIds) {
+        ResponseEntity<UserInfoDto[]> responseEntity;
+        try {
+            responseEntity = new ResponseEntity<>(userService.getUserListIn(userIds), HttpStatus.OK);
+        } catch (Exception e) {
+            responseEntity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
+    }
+
 }

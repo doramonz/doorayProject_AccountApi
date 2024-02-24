@@ -1,9 +1,6 @@
 package com.nhnacademy.doorayProject.service;
 
-import com.nhnacademy.doorayProject.dto.UserInfoDto;
-import com.nhnacademy.doorayProject.dto.UserLoginDto;
-import com.nhnacademy.doorayProject.dto.UserRegisterDto;
-import com.nhnacademy.doorayProject.dto.UserUpdateDto;
+import com.nhnacademy.doorayProject.dto.*;
 
 public interface UserService {
     UserInfoDto getUserInfo(String userId);
@@ -15,4 +12,6 @@ public interface UserService {
     void update(String userId, UserUpdateDto userUpdateDto);
 
     void dormancy(String userId);
+
+    UserInfoDto[] getUserListIn(String[] userIds);
 }

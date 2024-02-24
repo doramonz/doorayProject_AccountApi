@@ -1,10 +1,7 @@
 package com.nhnacademy.doorayProject.service.impl;
 
 import com.nhnacademy.doorayProject.config.property.DefaultValue;
-import com.nhnacademy.doorayProject.dto.UserInfoDto;
-import com.nhnacademy.doorayProject.dto.UserLoginDto;
-import com.nhnacademy.doorayProject.dto.UserRegisterDto;
-import com.nhnacademy.doorayProject.dto.UserUpdateDto;
+import com.nhnacademy.doorayProject.dto.*;
 import com.nhnacademy.doorayProject.entity.User;
 import com.nhnacademy.doorayProject.exeption.UserDormancyException;
 import com.nhnacademy.doorayProject.exeption.UserLoginFailException;
@@ -56,6 +53,11 @@ public class UserServiceImpl implements UserService {
         if(user.getLatestLogin().isBefore(LocalDateTime.now().minusDays(defaultValue.getDormancyDay()))) {
             throw new UserDormancyException();
         }
+    }
+
+    @Override
+    public UserInfoDto[] getUserListIn(String[] userIds) {
+        return userRepository.getUserInfoListIn(userIds).toArray(UserInfoDto[]::new);
     }
 
 }
