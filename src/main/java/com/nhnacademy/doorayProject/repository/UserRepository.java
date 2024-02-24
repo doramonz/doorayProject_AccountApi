@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, String>{
     Optional<UserInfoDto> getUserInfo(@Param("userId") String userId);
 
     @Query("SELECT new com.nhnacademy.doorayProject.dto.UserInfoDto(u.userName, u.password, u.email) FROM User u WHERE u.userId IN :userIds")
-    List<UserInfoDto> getUserInfoListIn(String[] userIds);
+    List<UserInfoDto> getUserInfoListIn(List<String> userIds);
 
     @Query("SELECT new com.nhnacademy.doorayProject.dto.UserInfoDto(u.userName, u.password, u.email) FROM User u")
     List<UserInfoDto> getUserInfoList();

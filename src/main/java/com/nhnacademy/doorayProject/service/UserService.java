@@ -2,6 +2,8 @@ package com.nhnacademy.doorayProject.service;
 
 import com.nhnacademy.doorayProject.dto.*;
 
+import java.util.List;
+
 public interface UserService {
     UserInfoDto getUserInfo(String userId);
 
@@ -13,7 +15,7 @@ public interface UserService {
 
     void dormancy(String userId);
 
-    UserInfoDto[] getUserListIn(String[] userIds);
+    List<UserInfoDto> getUserListIn(List<String> userIdList);
 
-    UserInfoDto[] getUserList();
+    List<UserInfoDto> getUserList();
 }
