@@ -60,4 +60,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.getUserInfoListIn(userIds).toArray(UserInfoDto[]::new);
     }
 
+    @Override
+    public UserInfoDto[] getUserList() {
+        return userRepository.getUserInfoList().toArray(UserInfoDto[]::new);
+    }
+
 }

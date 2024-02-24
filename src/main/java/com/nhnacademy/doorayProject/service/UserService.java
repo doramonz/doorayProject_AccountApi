@@ -14,4 +14,6 @@ public interface UserService {
     void dormancy(String userId);
 
     UserInfoDto[] getUserListIn(String[] userIds);
+
+    UserInfoDto[] getUserList();
 }

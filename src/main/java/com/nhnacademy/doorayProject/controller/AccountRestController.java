@@ -91,4 +91,15 @@ public class AccountRestController {
         return responseEntity;
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<UserInfoDto[]> getUserList() {
+        ResponseEntity<UserInfoDto[]> responseEntity;
+        try {
+            responseEntity = new ResponseEntity<>(userService.getUserList(), HttpStatus.OK);
+        } catch (Exception e) {
+            responseEntity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
+    }
+
 }
