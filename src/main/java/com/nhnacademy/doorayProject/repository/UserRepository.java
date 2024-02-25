@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, String>{
-    @Query("SELECT new com.nhnacademy.doorayProject.dto.UserInfoDto(u.userName, u.password, u.email) FROM User u WHERE u.userId = :userId")
+    @Query("SELECT new com.nhnacademy.doorayProject.dto.UserInfoDto(u.userId, u.userName, u.email) FROM User u WHERE u.userId = :userId")
     Optional<UserInfoDto> getUserInfo(@Param("userId") String userId);
 
-    @Query("SELECT new com.nhnacademy.doorayProject.dto.UserInfoDto(u.userName, u.password, u.email) FROM User u WHERE u.userId IN :userIds")
+    @Query("SELECT new com.nhnacademy.doorayProject.dto.UserInfoDto(u.userId, u.userName, u.email) FROM User u WHERE u.userId IN :userIds")
     List<UserInfoDto> getUserInfoListIn(List<String> userIds);
 
-    @Query("SELECT new com.nhnacademy.doorayProject.dto.UserInfoDto(u.userName, u.password, u.email) FROM User u")
+    @Query("SELECT new com.nhnacademy.doorayProject.dto.UserInfoDto(u.userId, u.userName, u.email) FROM User u")
     List<UserInfoDto> getUserInfoList();
 }
