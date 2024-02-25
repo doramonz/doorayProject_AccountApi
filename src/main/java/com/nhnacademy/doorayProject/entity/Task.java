@@ -1,18 +1,11 @@
 package com.nhnacademy.doorayProject.entity;
 
-//import com.nhnacademy.doorayProject.dto.UserInfoDto;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @EqualsAndHashCode
 @Getter
@@ -29,8 +22,11 @@ public class Task {
     @Column(name = "task_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer taskId;
+
     @Column(name = "user_id")
     private String userId;
+    @Column(name = "milestone_id")
+    private Integer mileStoneId;
     @Column(name = "task_title")
     private String taskTitle;
     @Column(name = "task_content")
@@ -47,10 +43,4 @@ public class Task {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @ManyToOne
-    @JoinColumn(name = "milestone_id")
-    private MileStone mileStone;
-
 }
-
-

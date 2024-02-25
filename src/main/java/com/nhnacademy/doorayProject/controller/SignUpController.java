@@ -7,16 +7,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class SignUpController {
-    private SignUpService signUpService;
+    private final SignUpService signUpService;
 
     public SignUpController(SignUpService signUpService) {
         this.signUpService = signUpService;
     }
 
-    @PostMapping("/accounts/register")
-    public RegisterDto createAccount(@RequestBody RegisterDto registerDto){
-        return signUpService.createAccount(registerDto);
-    }
+//    @PostMapping("/accounts/register")
+//    public RegisterDto createAccount(@RequestBody RegisterDto registerDto){
+//        return signUpService.createAccount(registerDto);
+//    }
 }
